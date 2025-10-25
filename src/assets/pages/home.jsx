@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import Footer from "../components/footer";
 import Header from "../components/header";
+import { Analytics } from "@vercel/analytics/next"
 
 /**
  * ASCVD Risk Calculator (10-year) – Pooled Cohort Equations (PCE, 2013)
