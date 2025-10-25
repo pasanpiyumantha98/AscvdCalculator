@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from "react";
+import Footer from "../components/footer";
+import Header from "../components/header";
 
 /**
  * ASCVD Risk Calculator (10-year) – Pooled Cohort Equations (PCE, 2013)
@@ -178,13 +180,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="border-b bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-blue-600">ASCVD Risk Calculator</h1>
-          <p className="text-gray-600">10-year risk of a first ASCVD event (Pooled Cohort Equations, 2013)</p>
-        </div>
-      </header>
+     
+     <Header/>
+     
 
       {/* Main */}
       <main className="max-w-6xl mx-auto px-4 py-8">
@@ -463,45 +461,18 @@ export default function Home() {
             </p>
           </article>
 
-          <article className="bg-white rounded-2xl shadow p-6 leading-7 text-gray-800">
-            <h2 className="text-2xl font-bold mb-3">Privacy and technical notes</h2>
-            <p>
-              This page runs entirely in your browser; inputs are not sent to a server unless you add your own backend. If you
-              embed it in a larger app, comply with your privacy policy and any regulations that apply to health-related data. For
-              teams deploying this in production, consider adding explicit user consent for analytics and error tracking, and make
-              those systems opt-in when dealing with sensitive information.
-            </p>
-            <p>
-              Under the hood, the calculator applies natural logarithms to age, total cholesterol, HDL, and SBP, mixes in several
-              interaction terms (like age×SBP or age×HDL), and forms a linear predictor. A baseline survival at 10 years, combined
-              with a mean-center offset, transforms that predictor into a probability. Small rounding differences can occur across
-              browsers; adding unit tests with known example inputs is a good practice if you plan to rely on exact numbers.
-            </p>
-          </article>
+         
 
-          <article className="bg-white rounded-2xl shadow p-6 leading-7 text-gray-800">
-            <h2 className="text-2xl font-bold mb-3">Developer roadmap</h2>
-            <p>
-              To productionize this page: (1) Verify coefficient tables and baseline survival values against an official source;
-              (2) Add a race-free PREVENT 2023 option and a toggle to switch models; (3) Offer a “what-if” simulator with sliders
-              for SBP, total cholesterol, HDL, and smoking status; (4) Provide unit toggles (mg/dL ↔ mmol/L) and internationalized
-              copy; (5) Ensure full accessibility—labels, keyboard navigation, ARIA attributes, and sufficient contrast; (6) Add a
-              printable summary with inputs and a friendly explanation to discuss with a clinician.
-            </p>
-          </article>
+         
         </section>
 
         <p className="text-xs text-gray-500 mt-8">
-          Disclaimer: Educational use only. Do not use for diagnosis, treatment, or medication decisions without a qualified clinician.
+          Disclaimer: Do not use for diagnosis, treatment, or medication decisions without a qualified clinician.
         </p>
       </main>
 
-      {/* Footer */}
-      <footer className="mt-12 border-t">
-        <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-500">
-          © {new Date().getFullYear()} ASCVD Risk Calculator (demo)
-        </div>
-      </footer>
+      <Footer/>
+     
     </div>
   );
 }
