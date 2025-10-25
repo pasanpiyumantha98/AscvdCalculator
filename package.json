@@ -31,7 +31,6 @@
     "react-streaming": "^0.4.11",
     "tailwindcss": "^4.1.16",
     "vite": "^7.1.7",
-    "vite-plugin-prerender": "^1.0.8",
     "vite-plugin-ssr": "^0.4.142"
   }
 }
