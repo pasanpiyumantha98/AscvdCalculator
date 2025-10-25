@@ -411,6 +411,22 @@ export default function Home() {
           </article>
 
           <article className="bg-white rounded-2xl shadow p-6 leading-7 text-gray-800">
+            <h2 className="text-2xl font-bold mb-3">How Cholesterol can affect your ASCVD risk?</h2>
+            <p class="pb-2">
+             High cholesterol is one of the most influential and modifiable risk factors for ASCVD (Atherosclerotic Cardiovascular Disease). Cholesterol itself is not inherently bad, the body needs it to build cells, produce hormones, and support vital functions. However, when there is too much cholesterol circulating in the blood, especially in the form of LDL (low-density lipoprotein), it begins to cause harm to the arteries. LDL cholesterol can slowly deposit along the inner walls of arteries, leading to the formation of fatty plaques. These plaques make the arterial walls thicker and less flexible, a condition known as atherosclerosis, which reduces oxygen-rich blood flow to the heart and other organs.
+            </p>
+            <p class="pb-2">
+             Over time, these plaques may rupture, prompting the body to form blood clots at the site of injury. A clot that blocks blood flow to the heart can cause a heart attack, while a clot in an artery leading to the brain can cause a stroke. That’s why LDL cholesterol is often referred to as “bad cholesterol.” On the other hand, HDL (high-density lipoprotein) cholesterol acts as a cleaner, carrying excess LDL cholesterol from the bloodstream back to the liver, where it can be broken down and removed. Higher levels of HDL are associated with a lower risk of heart disease because HDL helps keep arteries clear and prevents plaque buildup.
+            </p>
+            <p class="pb-2">
+           Doctors use cholesterol measurements including total cholesterol, LDL, HDL, and triglycerides as essential inputs in ASCVD risk calculators. These tools estimate a person’s 10-year and lifetime risk of developing cardiovascular disease by combining cholesterol levels with other factors like age, sex, blood pressure, smoking status, and diabetes. Typically, individuals with LDL above 160 mg/dL or HDL below 40 mg/dL face a much higher risk, while maintaining LDL below 100 mg/dL and HDL above 60 mg/dL is considered optimal.
+             </p>
+            <p class="pb-2">
+           Lifestyle choices play a key role in managing cholesterol and, consequently, ASCVD risk. Diets high in saturated fats, trans fats, and processed foods tend to raise LDL cholesterol, whereas diets rich in fruits, vegetables, whole grains, lean proteins, and healthy fats (like those from olive oil, avocados, and fish) help improve lipid profiles. Regular physical activity can raise HDL cholesterol and lower LDL, while quitting smoking and maintaining a healthy weight further reduce overall cardiovascular risk. In some cases, when lifestyle changes aren’t enough, doctors may prescribe statins or other lipid-lowering medications to control cholesterol levels and protect against plaque buildup.
+               </p>
+          </article>
+
+          <article className="bg-white rounded-2xl shadow p-6 leading-7 text-gray-800">
             <h2 className="text-2xl font-bold mb-3">Scenario explorer: what actually shifts the needle?</h2>
             <p>
               Without adding any extra UI complexity, you can still think through “what-if” changes that often move the result:
