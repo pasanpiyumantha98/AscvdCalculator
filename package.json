@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:prerender": "vite build && node scripts/prerender.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -26,11 +27,14 @@
     "eslint": "^9.36.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
+    "express": "^5.1.0",
     "globals": "^16.4.0",
     "postcss": "^8.5.6",
+    "puppeteer": "^24.26.1",
     "react-streaming": "^0.4.11",
     "tailwindcss": "^4.1.16",
     "vite": "^7.1.7",
+    "vite-plugin-prerender": "^1.0.8",
     "vite-plugin-ssr": "^0.4.142"
   }
 }
