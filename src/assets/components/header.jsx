@@ -1,14 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../logo.png";
 
 function Header() {
   return (
     <header className="border-b bg-white shadow-sm">
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
         {/* Logo / Title */}
-        <h1 className="text-xl sm:text-2xl font-bold text-blue-600 text-center sm:text-left">
-          ASCVDRiskCalculator.org
-        </h1>
+        <Link to="/" className="flex items-center justify-center gap-3 sm:justify-start">
+          <img src={logo} alt="ASCVDRiskCalculator.org logo" className="h-10 w-10 object-contain" />
+          <h1 className="text-xl sm:text-2xl font-bold text-blue-600 text-center sm:text-left">
+            ASCVDRiskCalculator.org
+          </h1>
+        </Link>
 
         {/* Navigation Buttons */}
         <nav className="flex justify-center sm:justify-end flex-wrap gap-4">
