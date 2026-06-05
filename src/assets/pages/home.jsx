@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/footer";
 import Header from "../components/header";
 
@@ -28,9 +28,7 @@ const COEFFS = {
     ln_hdl: -7.990,
     ln_age_ln_hdl: 1.769,
     ln_treated_sbp: 1.797,
-    ln_age_ln_treated_sbp: -0.348,
     ln_untreated_sbp: 1.764,
-    ln_age_ln_untreated_sbp: -0.269,
     smoker: 7.837,
     ln_age_smoker: -1.795,
     diabetes: 0.658,
@@ -73,8 +71,11 @@ const COEFFS = {
     ln_age: 17.114,
     ln_tc: 0.940,
     ln_hdl: -18.920,
+    ln_age_ln_hdl: 4.475,
     ln_treated_sbp: 29.291,
+    ln_age_ln_treated_sbp: -6.432,
     ln_untreated_sbp: 27.820,
+    ln_age_ln_untreated_sbp: -6.087,
     smoker: 0.691,
     diabetes: 0.874,
     s0_10yr: 0.9533,
@@ -173,11 +174,45 @@ export default function Home() {
     smoker: false,
     diabetes: false,
   });
+  const [risk, setRisk] = useState(null);
+  const [pendingRisk, setPendingRisk] = useState(null);
+  const [showMembershipPopup, setShowMembershipPopup] = useState(false);
+  const [showMemberEmail, setShowMemberEmail] = useState(false);
+  const [memberEmail, setMemberEmail] = useState("");
 
-  const risk = useMemo(() => {
-    try { return calculateAscvdPCE(inputs); }
-    catch { return NaN; }
-  }, [inputs]);
+  useEffect(() => {
+    if (!showMembershipPopup || showMemberEmail) return undefined;
+
+    const timer = window.setTimeout(() => {
+      setRisk(pendingRisk);
+      setShowMembershipPopup(false);
+      setShowMemberEmail(false);
+      setMemberEmail("");
+    }, 13000);
+
+    return () => window.clearTimeout(timer);
+  }, [pendingRisk, showMemberEmail, showMembershipPopup]);
+
+  const handleCalculate = () => {
+    let nextRisk;
+    try { nextRisk = calculateAscvdPCE(inputs); }
+    catch { nextRisk = NaN; }
+
+    setRisk(null);
+    setPendingRisk(nextRisk);
+    setShowMembershipPopup(true);
+    setShowMemberEmail(false);
+    setMemberEmail("");
+  };
+
+  const handleMemberResult = () => {
+    if (!memberEmail.trim()) return;
+
+    setRisk(pendingRisk);
+    setShowMembershipPopup(false);
+    setShowMemberEmail(false);
+    setMemberEmail("");
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -192,6 +227,9 @@ export default function Home() {
           {/* Inputs */}
           <div className="bg-white rounded-2xl shadow p-6">
             <h2 className="text-xl font-semibold mb-4">Enter your values</h2>
+            <div className="mb-5 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-950">
+              <span className="font-semibold">Calculation Method:</span> 2013 ACC/AHA ASCVD Pooled Cohort Equations
+            </div>
             <div className="grid grid-cols-2 gap-4">
               <Field label="Age (years)">
                 <NumberInput value={inputs.age} onChange={(v) => setInputs({ ...inputs, age: v })} min={40} max={79} />
@@ -279,12 +317,23 @@ export default function Home() {
                 </select>
               </Field>
             </div>
+            <button
+              type="button"
+              onClick={handleCalculate}
+              className="mt-6 w-full rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Calculate ASCVD Risk
+            </button>
           </div>
 
           {/* Output */}
           <div className="bg-white rounded-2xl shadow p-6">
             <h2 className="text-xl font-semibold mb-4">Result</h2>
-            {Number.isFinite(risk) ? (
+            {risk === null ? (
+              <div className="text-sm text-gray-600">
+                Enter your values, then click Calculate ASCVD Risk to generate your result.
+              </div>
+            ) : Number.isFinite(risk) ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
                   <div className="text-5xl font-bold">{(risk * 100).toFixed(1)}%</div>
@@ -308,6 +357,59 @@ export default function Home() {
             )}
           </div>
         </section>
+
+        {showMembershipPopup && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4">
+            <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+              <h2 className="text-xl font-semibold text-slate-900">Premium Membership Required</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600">
+                Join for $3.99/year to view ASCVD calculator results immediately with unlimited calculations.
+              </p>
+
+              <div className="mt-5 flex flex-col gap-3">
+                <a
+                  href="https://ascvd.gumroad.com/l/PremiumMembership"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Pay $3.99/year
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => setShowMemberEmail(true)}
+                  className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Already a member
+                </button>
+              </div>
+
+              {showMemberEmail && (
+                <div className="mt-5 space-y-3">
+                  <label className="block text-sm font-medium text-slate-700" htmlFor="member-email">
+                    Membership email
+                  </label>
+                  <input
+                    id="member-email"
+                    type="email"
+                    value={memberEmail}
+                    onChange={(event) => setMemberEmail(event.target.value)}
+                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="you@example.com"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleMemberResult}
+                    className="w-full rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-700 focus:ring-offset-2"
+                  >
+                    View Result
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* --------- Educational Content (~1500+ words) --------- */}
         <section className="mt-10 space-y-8">
