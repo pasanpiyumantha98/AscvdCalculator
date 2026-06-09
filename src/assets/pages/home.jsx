@@ -188,7 +188,7 @@ export default function Home() {
       setShowMembershipPopup(false);
       setShowMemberEmail(false);
       setMemberEmail("");
-    }, 13000);
+    }, 20000);
 
     return () => window.clearTimeout(timer);
   }, [pendingRisk, showMemberEmail, showMembershipPopup]);
