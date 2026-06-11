@@ -176,22 +176,20 @@ export default function Home() {
   });
   const [risk, setRisk] = useState(null);
   const [pendingRisk, setPendingRisk] = useState(null);
-  const [showMembershipPopup, setShowMembershipPopup] = useState(false);
-  const [showMemberEmail, setShowMemberEmail] = useState(false);
-  const [memberEmail, setMemberEmail] = useState("");
+  const [showFollowPopup, setShowFollowPopup] = useState(false);
+  const [isFollowLoading, setIsFollowLoading] = useState(false);
 
   useEffect(() => {
-    if (!showMembershipPopup || showMemberEmail) return undefined;
+    if (!isFollowLoading) return undefined;
 
-    const timer = window.setTimeout(() => {
+    const unlockTimer = window.setTimeout(() => {
       setRisk(pendingRisk);
-      setShowMembershipPopup(false);
-      setShowMemberEmail(false);
-      setMemberEmail("");
-    }, 25000);
+      setShowFollowPopup(false);
+      setIsFollowLoading(false);
+    }, 20000);
 
-    return () => window.clearTimeout(timer);
-  }, [pendingRisk, showMemberEmail, showMembershipPopup]);
+    return () => window.clearTimeout(unlockTimer);
+  }, [isFollowLoading, pendingRisk]);
 
   const handleCalculate = () => {
     let nextRisk;
@@ -200,18 +198,8 @@ export default function Home() {
 
     setRisk(null);
     setPendingRisk(nextRisk);
-    setShowMembershipPopup(true);
-    setShowMemberEmail(false);
-    setMemberEmail("");
-  };
-
-  const handleMemberResult = () => {
-    if (!memberEmail.trim()) return;
-
-    setRisk(pendingRisk);
-    setShowMembershipPopup(false);
-    setShowMemberEmail(false);
-    setMemberEmail("");
+    setShowFollowPopup(true);
+    setIsFollowLoading(false);
   };
 
   return (
@@ -358,55 +346,26 @@ export default function Home() {
           </div>
         </section>
 
-        {showMembershipPopup && (
+        {showFollowPopup && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4">
             <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
-              <h2 className="text-xl font-semibold text-slate-900">Premium Membership Required</h2>
+              <h2 className="text-xl font-semibold text-slate-900">Complete to unlock results</h2>
               <p className="mt-3 text-sm leading-6 text-slate-600">
-                Join for $3.99/year to view ASCVD calculator results immediately with unlimited calculations.
+                Follow on X to view your ASCVD calculator result.
               </p>
 
               <div className="mt-5 flex flex-col gap-3">
                 <a
-                  href="https://ascvd.gumroad.com/l/PremiumMembership"
+                  href="https://x.com/intent/follow?screen_name=LankanTaxiTours"
                   target="_blank"
                   rel="noreferrer"
+                  onClick={() => setIsFollowLoading(true)}
+                  aria-busy={isFollowLoading}
                   className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
-                  Pay $3.99/year
+                  {isFollowLoading ? "Loading..." : "Follow on X"}
                 </a>
-
-                <button
-                  type="button"
-                  onClick={() => setShowMemberEmail(true)}
-                  className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                >
-                  Already a member
-                </button>
               </div>
-
-              {showMemberEmail && (
-                <div className="mt-5 space-y-3">
-                  <label className="block text-sm font-medium text-slate-700" htmlFor="member-email">
-                    Membership email
-                  </label>
-                  <input
-                    id="member-email"
-                    type="email"
-                    value={memberEmail}
-                    onChange={(event) => setMemberEmail(event.target.value)}
-                    className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="you@example.com"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleMemberResult}
-                    className="w-full rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-700 focus:ring-offset-2"
-                  >
-                    View Result
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         )}
